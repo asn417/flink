@@ -21,98 +21,135 @@ under the License.
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.example</groupId>
-	<artifactId>flink</artifactId>
+	<artifactId>bigdata_demo</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<modules>
 		<module>kafka</module>
+        <module>flink</module>
+		<module>canal</module>
 	</modules>
 	<packaging>pom</packaging>
 
-	<name>Flink Quickstart Job</name>
-	<url>http://www.myorganization.org</url>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<flink.version>1.7.2</flink.version>
+		<flink.version>1.10.0</flink.version>
+		<kafka.version>2.3.0</kafka.version>
 		<java.version>1.8</java.version>
-		<scala.binary.version>2.11</scala.binary.version>
+		<scala.binary.version>2.12</scala.binary.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 	</properties>
 
-	<repositories>
-		<repository>
-			<id>apache.snapshots</id>
-			<name>Apache Development Snapshot Repository</name>
-			<url>https://repository.apache.org/content/repositories/snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
+	<dependencyManagement>
+		<dependencies>
+			<!-- Apache Flink dependencies -->
+			<!-- These dependencies are provided, because they should not be packaged into the JAR file. -->
+			<dependency>
+				<groupId>org.apache.flink</groupId>
+				<artifactId>flink-java</artifactId>
+				<version>${flink.version}</version>
+				<!--			<scope>provided</scope>&lt;!&ndash;idea本地调试代码时需要注释掉，否则报找不到或无法加载主类&ndash;&gt;-->
+			</dependency>
+			<dependency>
+				<groupId>org.apache.flink</groupId>
+				<artifactId>flink-streaming-java_${scala.binary.version}</artifactId>
+				<version>${flink.version}</version>
+				<!--			<scope>provided</scope>-->
+			</dependency>
+			<!-- Add connector dependencies here. They must be in the default scope (compile). -->
+			<dependency>
+				<groupId>org.apache.flink</groupId>
+				<artifactId>flink-connector-kafka_2.12</artifactId>
+				<version>${flink.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.flink</groupId>
+				<artifactId>flink-table-api-java-bridge_2.12</artifactId>
+				<version>${flink.version}</version>
+				<!--            <scope>provided</scope>-->
+			</dependency>
+			<!-- if you want to run the Table API & SQL programs locally within your IDE, you must add one of the following set of modules-->
+			<!-- Either... (for the old planner that was available before Flink 1.9) -->
+			<dependency>
+				<groupId>org.apache.flink</groupId>
+				<artifactId>flink-table-planner_2.12</artifactId>
+				<version>${flink.version}</version>
+				<!--            <scope>provided</scope>-->
+			</dependency>
+			<!-- or.. (for the new Blink planner) -->
+			<dependency>
+				<groupId>org.apache.flink</groupId>
+				<artifactId>flink-table-planner-blink_2.12</artifactId>
+				<version>${flink.version}</version>
+				<!--            <scope>provided</scope>-->
+			</dependency>
 
-	<dependencies>
-		<!-- Apache Flink dependencies -->
-		<!-- These dependencies are provided, because they should not be packaged into the JAR file. -->
-		<dependency>
-			<groupId>org.apache.flink</groupId>
-			<artifactId>flink-java</artifactId>
-			<version>${flink.version}</version>
-<!--			<scope>provided</scope>&lt;!&ndash;idea本地调试代码时需要注释掉，否则报找不到或无法加载主类&ndash;&gt;-->
-		</dependency>
-		<dependency>
-			<groupId>org.apache.flink</groupId>
-			<artifactId>flink-streaming-java_${scala.binary.version}</artifactId>
-			<version>${flink.version}</version>
-<!--			<scope>provided</scope>-->
-		</dependency>
-		<dependency>
-			<groupId>org.apache.flink</groupId>
-			<artifactId>flink-scala_2.11</artifactId>
-			<version>1.7.2</version>
-<!--			<scope>provided</scope>-->
-		</dependency>
-		<dependency>
-			<groupId>org.apache.flink</groupId>
-			<artifactId>flink-streaming-scala_2.11</artifactId>
-			<version>1.7.2</version>
-<!--			<scope>provided</scope>-->
-		</dependency>
-		<!-- Add connector dependencies here. They must be in the default scope (compile). -->
+			<!--Internally, parts of the table ecosystem are implemented in Scala. Therefore, please make sure to add the following dependency for both batch and streaming applications-->
+			<dependency>
+				<groupId>org.apache.flink</groupId>
+				<artifactId>flink-streaming-scala_2.12</artifactId>
+				<version>${flink.version}</version>
+				<!--            <scope>provided</scope>-->
+			</dependency>
 
-		<dependency>
-			<groupId>org.apache.flink</groupId>
-			<artifactId>flink-connector-kafka-0.11_${scala.binary.version}</artifactId>
-			<version>${flink.version}</version>
-		</dependency>
+			<dependency>
+				<groupId>org.apache.flink</groupId>
+				<artifactId>flink-table-common</artifactId>
+				<version>${flink.version}</version>
+				<!--            <scope>provided</scope>-->
+			</dependency>
+			<!-- Add logging framework, to produce console output when running in the IDE. -->
+			<!-- These dependencies are excluded from the application JAR by default. -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>1.7.7</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.17</version>
+				<scope>runtime</scope>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
+			<dependency>
+				<groupId>org.apache.kafka</groupId>
+				<artifactId>kafka-clients</artifactId>
+				<version>${kafka.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba.otter</groupId>
+				<artifactId>canal.client</artifactId>
+				<version>1.1.4</version>
+			</dependency>
 
+			<dependency>
+				<groupId>com.alibaba.otter</groupId>
+				<artifactId>canal.client</artifactId>
+				<version>1.1.4</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>commons-lang3</artifactId>
+						<groupId>org.apache.commons</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 
-		<!-- Add logging framework, to produce console output when running in the IDE. -->
-		<!-- These dependencies are excluded from the application JAR by default. -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.7</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-			<scope>runtime</scope>
-		</dependency>
+			<dependency>
+				<groupId>com.ctrip.framework.apollo</groupId>
+				<artifactId>apollo-client</artifactId>
+				<version>1.4.0</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>slf4j-api</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
-		<!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
-		<dependency>
-			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka-clients</artifactId>
-			<version>2.3.0</version>
-		</dependency>
-
-	</dependencies>
 
 	<build>
 		<plugins>
@@ -172,51 +209,6 @@ under the License.
 				</executions>
 			</plugin>
 		</plugins>
-
-		<pluginManagement>
-			<plugins>
-
-				<!-- This improves the out-of-the-box experience in Eclipse by resolving some warnings. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.apache.maven.plugins</groupId>
-										<artifactId>maven-shade-plugin</artifactId>
-										<versionRange>[3.0.0,)</versionRange>
-										<goals>
-											<goal>shade</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore/>
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.apache.maven.plugins</groupId>
-										<artifactId>maven-compiler-plugin</artifactId>
-										<versionRange>[3.1,)</versionRange>
-										<goals>
-											<goal>testCompile</goal>
-											<goal>compile</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore/>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 
 	<!-- This profile helps to make things run out of the box in IntelliJ -->

@@ -1,4 +1,4 @@
-package asn.stream.watermark;
+package stream.watermark;
 
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.tuple.Tuple;
