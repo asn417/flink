@@ -20,22 +20,39 @@ public class SumDataFromKafkaByDDL {
 
         StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(environment, settings);
 
-        String createTable = "CREATE TABLE MyUserTable (\n" +
+        String createTable =  "CREATE TABLE MyUserTable (\n" +
                 "  `user` VARCHAR,\n" +
                 "  age DECIMAL\n" +
                 ") WITH (\n" +
-                "  -- declare the external system to connect to\n" +
-                "  'connector.type' = 'kafka',\n" +
-                "  'connector.version' = 'universal',\n" +
-                "  'connector.topic' = 'test',\n" +
-                "  'connector.startup-mode' = 'latest-offset',\n" +
-                "  'connector.properties.0.key' = 'zookeeper.connect',\n" +
-                "  'connector.properties.0.value' = 'master:2181',\n" +
-                "  'connector.properties.1.key' = 'bootstrap.servers',\n" +
-                "  'connector.properties.1.value' = 'master:9092',\n" +
-                "  'update-mode' = 'append',\n" +
-                "  -- declare a format for this system\n" +
-                "  'format.type' = 'json',\n" +
+                "  'connector.type' = 'kafka',       \n" +
+                "\n" +
+                "  'connector.version' = 'universal',     -- required: valid connector versions are\n" +
+                "                                    -- \"0.8\", \"0.9\", \"0.10\", \"0.11\", and \"universal\"\n" +
+                "\n" +
+                "  'connector.topic' = 'test', -- required: topic name from which the table is read\n" +
+                "\n" +
+                "  'connector.properties.zookeeper.connect' = 'master:2181', -- required: specify the ZooKeeper connection string\n" +
+                "  'connector.properties.bootstrap.servers' = 'master:9092', -- required: specify the Kafka server connection string\n" +
+                "  'connector.properties.group.id' = 'testGroup', --optional: required in Kafka consumer, specify consumer group\n" +
+                "  'connector.startup-mode' = 'latest-offset',    -- optional: valid modes are \"earliest-offset\", \n" +
+                "                                                   -- \"latest-offset\", \"group-offsets\", \n" +
+                "                                                   -- or \"specific-offsets\"\n" +
+                "\n" +
+                "  -- optional: used in case of startup mode with specific offsets\n" +
+                "  -- 'connector.specific-offsets' = 'partition:0,offset:42;partition:1,offset:300',\n" +
+                "\n" +
+                "  -- 'connector.sink-partitioner' = '...',  -- optional: output partitioning from Flink's partitions \n" +
+                "                                         -- into Kafka's partitions valid are \"fixed\" \n" +
+                "                                         -- (each Flink partition ends up in at most one Kafka partition),\n" +
+                "                                         -- \"round-robin\" (a Flink partition is distributed to \n" +
+                "                                         -- Kafka partitions round-robin)\n" +
+                "                                         -- \"custom\" (use a custom FlinkKafkaPartitioner subclass)\n" +
+                "  -- optional: used in case of sink partitioner custom\n" +
+                "  -- 'connector.sink-partitioner-class' = 'org.mycompany.MyPartitioner',\n" +
+                "  \n" +
+                "  'format.type' = 'json',                 -- required: Kafka connector requires to specify a format,\n" +
+                "                                         -- the supported formats are 'csv', 'json' and 'avro'.\n" +
+                "                                         -- Please refer to Table Formats section for more details.\n" +
                 "  'format.fail-on-missing-field' = 'true',\n"+
                 "  'format.json-schema' = '{\n" +
                 "                            \"type\": \"object\",\n" +

@@ -1,6 +1,5 @@
 package table.dynamic;
 
-import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -11,7 +10,6 @@ import org.apache.flink.table.api.java.StreamTableEnvironment;
 import org.apache.flink.table.descriptors.Json;
 import org.apache.flink.table.descriptors.Kafka;
 import org.apache.flink.table.descriptors.Schema;
-import org.apache.flink.table.types.DataType;
 
 /**
  * @Author: wangsen
@@ -33,7 +31,7 @@ public class SumDataFromKafkaByAPI {
                 // optional: connector specific properties
                 .property("zookeeper.connect", "master:2181")
                 .property("bootstrap.servers", "master:9092")
-                //.property("group.id", "testGroup")
+                .property("group.id", "testGroup")
                 // optional: select a startup mode for Kafka offsets
                 //.startFromEarliest()
                 .startFromLatest()
@@ -44,18 +42,13 @@ public class SumDataFromKafkaByAPI {
                 //.sinkPartitionerCustom(MyCustom.class)    // use a custom FlinkKafkaPartitioner subclass
             )
             .withFormat(                                  // required: Kafka connector requires to specify a format,
-                  new Json().failOnMissingField(true).jsonSchema(" \"type\": \"object\",\n" +
-                          "                            \"properties\": {\n" +
-                          "                                \"user\": {\"type\": \"string\"},\n" +
-                          "                                \"age\": {\"type\": \"number\"}\n" +
-                          "}"
-                  )                                        // the supported formats are Csv, Json and Avro.
+                  new Json().failOnMissingField(true)                          // the supported formats are Csv, Json and Avro.
             ).withSchema(new Schema()
                 //.field("user", "String")
                 .field("user", DataTypes.STRING())
                 //.field("age","BigDecimal")
-                .field("age",DataTypes.DECIMAL(1,1))
-        );
+                .field("age",DataTypes.DECIMAL(38,18))
+        ).createTemporaryTable("MyUserTable");
 
         String query = "SELECT user,SUM(age) as countage FROM MyUserTable group by user";
         Table table = tableEnvironment.sqlQuery(query);
