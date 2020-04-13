@@ -9,6 +9,7 @@ import java.math.BigDecimal;
  **/
 public class UserVo {
     private String user;
+    private int age;
     private BigDecimal countage;
 
     public String getUser() {
@@ -17,6 +18,14 @@ public class UserVo {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public BigDecimal getCountage() {
@@ -28,6 +37,6 @@ public class UserVo {
     }
     @Override
     public String toString(){
-        return "user:"+user+",countage:"+countage;
+        return "user:"+user+",age:"+age+",countage:"+countage;
     }
 }

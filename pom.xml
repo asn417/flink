@@ -27,7 +27,7 @@ under the License.
 		<module>kafka</module>
         <module>flink</module>
 		<module>canal</module>
-	</modules>
+    </modules>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -147,7 +147,19 @@ under the License.
 					</exclusion>
 				</exclusions>
 			</dependency>
+			<dependency>
+				<groupId>org.apache.hbase</groupId>
+				<artifactId>hbase-client</artifactId>
+				<version>2.1.0</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>slf4j-log4j12</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 		</dependencies>
+
 	</dependencyManagement>
 
 

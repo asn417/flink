@@ -41,7 +41,7 @@ public class ReadHbaseByDDL {
                 "                                                    -- This can help performance on writing to JDBC database. No default value,\n" +
                 "                                                    -- i.e. the default flushing is not depends on the number of buffered rows.\n" +
                 "\n" +
-                "  'connector.write.buffer-flush.interval' = '2s'   -- optional: writing option, sets a flush interval flushing buffered requesting\n" +
+                "  'connector.write.buffer-flush.interval' = '2s'    -- optional: writing option, sets a flush interval flushing buffered requesting\n" +
                 "                                                    -- if the interval passes, in milliseconds. Default value is \"0s\", which means\n" +
                 "                                                    -- no asynchronous flush thread will be scheduled.\n" +
                 ")";

@@ -3,10 +3,14 @@ package table.hbase;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.table.api.DataTypes;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.java.StreamTableEnvironment;
 import org.apache.flink.table.descriptors.HBase;
+import org.apache.flink.table.descriptors.Json;
+import org.apache.flink.table.descriptors.Schema;
+import org.apache.flink.types.Row;
 import table.dynamic.UserVo;
 
 /**
@@ -40,9 +44,14 @@ public class ReadHbaseByAPI {
                         .writeBufferFlushInterval("2s")        // optional: writing option, sets a flush interval flushing buffered requesting
                 // if the interval passes, in milliseconds. Default value is "0s", which means
                 // no asynchronous flush thread will be scheduled.
-        );
+        ).withSchema(new Schema()
+                //.field("user", "String")
+                .field("user", DataTypes.STRING())
+                //.field("age","BigDecimal")
+                .field("age",DataTypes.DECIMAL(38,18))
+        ).withFormat(new Json()).createTemporaryTable("MyUserTable");
 
-        String query = "SELECT user,SUM(age) as countage FROM test group by user";
+        String query = "SELECT user,SUM(age) as countage FROM MyUserTable group by user";
         Table table = tableEnvironment.sqlQuery(query);
 
         DataStream<Tuple2<Boolean, UserVo>> rowDataStream = tableEnvironment.toRetractStream(table, UserVo.class);
