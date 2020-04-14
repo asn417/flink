@@ -2,12 +2,12 @@ package table.hbase;
 
 import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.ConfigService;
+import entity.ods.ODS_ReceiptBillVo;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import table.dynamic.UserVo;
 
 import java.util.Arrays;
 
@@ -16,16 +16,17 @@ import java.util.Arrays;
  * @Date: 2020/4/13 13:36
  * @Description:
  **/
-public class HBaseSource extends RichSourceFunction<UserVo> {
+public class ReceiptBillSource extends RichSourceFunction<ODS_ReceiptBillVo> {
 
     private Connection conn = null;
 
     private Table table = null;
 
     private Scan scan = null;
+    private Admin admin = null;
 
     private String tableName = null;
-    public HBaseSource(String tableName){
+    public ReceiptBillSource(String tableName){
         this.tableName = tableName;
     }
     @Override
@@ -42,8 +43,10 @@ public class HBaseSource extends RichSourceFunction<UserVo> {
 
         config.setInt(HConstants.HBASE_CLIENT_SCANNER_TIMEOUT_PERIOD, 3000);
 
+        conn = ConnectionFactory.createConnection(config);
+        admin = conn.getAdmin();
         //tableName = "ods_owner_cloud:ods_receiptBill";
-        if (!HBaseUtils.isTableExist(tableName)){
+        if (!admin.tableExists(TableName.valueOf(tableName))){
             HBaseUtils.createNamespace("ods_owner_cloud");
             String[] keys = {"1","2","3","4","5","6","7","8","9"};
             byte[][] splitKeys = HBaseUtils.getSplitKeys(Arrays.asList(keys));
@@ -58,22 +61,23 @@ public class HBaseSource extends RichSourceFunction<UserVo> {
     }
 
     @Override
-    public void run(SourceContext<UserVo> sourceContext) throws Exception {
+    public void run(SourceContext<ODS_ReceiptBillVo> sourceContext) throws Exception {
         Scan scan = new Scan();
         scan.setCaching(1000);
         ResultScanner scanner = table.getScanner(scan);
-        UserVo userVo = null;
+        ODS_ReceiptBillVo receiptBillVo = null;
         for (Result result : scanner) {
-            userVo = new UserVo();
+            receiptBillVo = new ODS_ReceiptBillVo();
+            receiptBillVo.setiD(Bytes.toString(result.getRow()));
             for (Cell cell : result.listCells()) {
                 String column = Bytes.toString(CellUtil.cloneQualifier(cell));
-                if ("user".equals(column)){
-                    userVo.setUser(Bytes.toString(CellUtil.cloneValue(cell)));
-                }else if ("age".equals(column)){
-                    userVo.setAge(Bytes.toInt(CellUtil.cloneValue(cell)));
+                if ("FProjectID".equals(column)){
+                    receiptBillVo.setProjectID(Bytes.toString(CellUtil.cloneValue(cell)));
+                }else if ("FRoomID".equals(column)){
+                    receiptBillVo.setRoomID(Bytes.toString(CellUtil.cloneValue(cell)));
                 }
             }
-            sourceContext.collect(userVo);
+            sourceContext.collect(receiptBillVo);
         }
     }
 
