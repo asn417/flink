@@ -1,12 +1,13 @@
 package common;
 
-import common.CustomAbstractTableInputFormat;
 import org.apache.flink.api.java.tuple.Tuple;
 import org.apache.flink.configuration.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Scan;
+
+import java.io.IOException;
 
 /**
  * @Author: wangsen

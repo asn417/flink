@@ -1,4 +1,4 @@
-package batch;
+package batch.ods;
 
 import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.ConfigService;
@@ -19,42 +19,27 @@ import java.util.Arrays;
  * @Date: 2020/4/14 16:34
  * @Description:
  **/
-public class ReceiptBillEntryInputFormat extends CustomTableInputFormat<ODS_ReceiptBillEntryVo> {
+public class ODS_ReceiptBillEntry_IPF extends CustomTableInputFormat<ODS_ReceiptBillEntryVo> {
 
     //结果Tuple
     ODS_ReceiptBillEntryVo receiptBillEntryVo = new ODS_ReceiptBillEntryVo();
 
     @Override
     public void configure(Configuration configuration) {
-
         Connection conn = null;
-        Admin admin = null;
         org.apache.hadoop.conf.Configuration config = HBaseConfiguration.create();
-
         Config apolloConfig = ConfigService.getConfig("hbase");
         config.set(HConstants.ZOOKEEPER_QUORUM, apolloConfig.getProperty("hbase.zookeeper.quorum","172.20.184.17"));
         config.set(HConstants.ZOOKEEPER_CLIENT_PORT, apolloConfig.getProperty("hbase.zookeeper.property.clientPort","2181"));
-        config.setInt(HConstants.HBASE_CLIENT_OPERATION_TIMEOUT, 3000);
-        config.setInt(HConstants.HBASE_CLIENT_SCANNER_TIMEOUT_PERIOD, 3000);
-
+        config.setInt(HConstants.HBASE_CLIENT_OPERATION_TIMEOUT, 30000);
+        config.setInt(HConstants.HBASE_CLIENT_SCANNER_TIMEOUT_PERIOD, 30000);
         try {
             conn = ConnectionFactory.createConnection(config);
-            admin = conn.getAdmin();
-            if (!admin.tableExists(TableName.valueOf("ods_owner_cloud:ods_receiptBillEntry"))){
-                HBaseUtils.createNamespace("ods_owner_cloud");
-                String[] keys = {"1","2","3","4","5","6","7","8","9"};
-                byte[][] splitKeys = HBaseUtils.getSplitKeys(Arrays.asList(keys));
-                String[] cf = {"cf"};
-                HBaseUtils.createTableBySplitKeys("ods_owner_cloud:ods_receiptBillEntry",Arrays.asList(cf),splitKeys,true);
-            }
-            //tableName = "ods_owner_cloud:ods_receiptBill";
             TableName tableName = TableName.valueOf("ods_owner_cloud:ods_receiptBillEntry");
-            conn = ConnectionFactory.createConnection(config);
             table = (HTable) conn.getTable(tableName);
             scan = new Scan();
             //scan.addColumn(Bytes.toBytes("cf"),Bytes.toBytes("FCustomerID"));
             //scan.addFamily(Bytes.toBytes("cf"));
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -193,7 +178,7 @@ public class ReceiptBillEntryInputFormat extends CustomTableInputFormat<ODS_Rece
             }else if ("FIsInvoiced".equals(column)){//3.headID
                 receiptBillEntryVo.setIsInvoiced(Bytes.toString(CellUtil.cloneValue(cell)));
             }else if ("FUpdateTime".equals(column)){//3.headID
-                receiptBillEntryVo.setFUpdateTime(Bytes.toString(CellUtil.cloneValue(cell)));
+                receiptBillEntryVo.setUpdateTime(Bytes.toString(CellUtil.cloneValue(cell)));
             }
         }
         return receiptBillEntryVo;

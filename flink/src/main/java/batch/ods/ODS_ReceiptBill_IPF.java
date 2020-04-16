@@ -1,10 +1,9 @@
-package batch;
+package batch.ods;
 
 import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.ConfigService;
 import common.CustomTableInputFormat;
 import entity.ods.ODS_ReceiptBillVo;
-import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.configuration.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
@@ -19,7 +18,7 @@ import java.util.Arrays;
  * @Date: 2020/4/14 16:34
  * @Description:
  **/
-public class ReceiptBillInputFormat extends CustomTableInputFormat<ODS_ReceiptBillVo> {
+public class ODS_ReceiptBill_IPF extends CustomTableInputFormat<ODS_ReceiptBillVo> {
 
     //结果Tuple
     ODS_ReceiptBillVo receiptBillVo = new ODS_ReceiptBillVo();
@@ -28,36 +27,25 @@ public class ReceiptBillInputFormat extends CustomTableInputFormat<ODS_ReceiptBi
     public void configure(Configuration configuration) {
 
         Connection conn = null;
-        Admin admin = null;
         org.apache.hadoop.conf.Configuration config = HBaseConfiguration.create();
 
         Config apolloConfig = ConfigService.getConfig("hbase");
         config.set(HConstants.ZOOKEEPER_QUORUM, apolloConfig.getProperty("hbase.zookeeper.quorum","172.20.184.17"));
         config.set(HConstants.ZOOKEEPER_CLIENT_PORT, apolloConfig.getProperty("hbase.zookeeper.property.clientPort","2181"));
-        config.setInt(HConstants.HBASE_CLIENT_OPERATION_TIMEOUT, 3000);
-        config.setInt(HConstants.HBASE_CLIENT_SCANNER_TIMEOUT_PERIOD, 3000);
+        config.setInt(HConstants.HBASE_CLIENT_OPERATION_TIMEOUT, 30000);
+        config.setInt(HConstants.HBASE_CLIENT_SCANNER_TIMEOUT_PERIOD, 30000);
 
+        TableName tableName = TableName.valueOf("ods_owner_cloud:ods_receiptBill");
         try {
-            conn = ConnectionFactory.createConnection(config);
-            admin = conn.getAdmin();
-            if (!admin.tableExists(TableName.valueOf("ods_owner_cloud:ods_receiptBill"))){
-                HBaseUtils.createNamespace("ods_owner_cloud");
-                String[] keys = {"1","2","3","4","5","6","7","8","9"};
-                byte[][] splitKeys = HBaseUtils.getSplitKeys(Arrays.asList(keys));
-                String[] cf = {"cf"};
-                HBaseUtils.createTableBySplitKeys("ods_owner_cloud:ods_receiptBill",Arrays.asList(cf),splitKeys,true);
-            }
-            //tableName = "ods_owner_cloud:ods_receiptBill";
-            TableName tableName = TableName.valueOf("ods_owner_cloud:ods_receiptBill");
             conn = ConnectionFactory.createConnection(config);
             table = (HTable) conn.getTable(tableName);
             scan = new Scan();
-            //scan.addColumn(Bytes.toBytes("cf"),Bytes.toBytes("FCustomerID"));
-            //scan.addFamily(Bytes.toBytes("cf"));
-
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //scan.addColumn(Bytes.toBytes("cf"),Bytes.toBytes("FCustomerID"));
+        //scan.addFamily(Bytes.toBytes("cf"));
+
     }
 
     /***

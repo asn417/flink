@@ -11,6 +11,7 @@ public class DWD_ReceiptBillEntryVo implements Serializable {
 
     private static final long serialVersionUID = -4371903829929722245L;
 
+    //t_cc_receiptbillentry（全部字段）
     private String iD;
     private String number;
     private String headID;
@@ -72,6 +73,8 @@ public class DWD_ReceiptBillEntryVo implements Serializable {
     private String firstStage;
     private String isInvoiced;
     private String updateTime;
+
+    //t_cc_receiptbill->bill（部分字段）
     private String orgID;
     private String customerID;
     private String chequeID;
@@ -102,732 +105,826 @@ public class DWD_ReceiptBillEntryVo implements Serializable {
     private String receiptOperator;
     private String confirmCancelDescription;
     private String confirmReceiptDate;
+    private String billIsDelete;//FIsDelete
+    private String billDeleteTime;//FDeleteTime
+    private String billStatus;//FStatus
+
+    //t_bdc_project->project（部分字段）
+    private String projectName;
+
+    //t_cc_receiptreceiver->receiver（部分字段）
+    private String receiverName;
+
+    //t_cc_moneydefine->moneydefine（部分字段）
+    private String moneyDefineName;
+
+    //t_cc_settlementtype->settlementtype（部分字段）
+    private String settlementTypeName;
+    private String settlementTypeIsDelete;
+
+    //t_pc_room->room（部分字段）
+    private String roomName;
+
+
+
 
     public String getiD() {
-        return iD;
+        return this.iD;
     }
 
-    public void setiD(String iD) {
+    public void setiD(final String iD) {
         this.iD = iD;
     }
 
     public String getNumber() {
-        return number;
+        return this.number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(final String number) {
         this.number = number;
     }
 
     public String getHeadID() {
-        return headID;
+        return this.headID;
     }
 
-    public void setHeadID(String headID) {
+    public void setHeadID(final String headID) {
         this.headID = headID;
     }
 
     public String getMoneyDefineID() {
-        return moneyDefineID;
+        return this.moneyDefineID;
     }
 
-    public void setMoneyDefineID(String moneyDefineID) {
+    public void setMoneyDefineID(final String moneyDefineID) {
         this.moneyDefineID = moneyDefineID;
     }
 
     public String getMoneyStandardID() {
-        return moneyStandardID;
+        return this.moneyStandardID;
     }
 
-    public void setMoneyStandardID(String moneyStandardID) {
+    public void setMoneyStandardID(final String moneyStandardID) {
         this.moneyStandardID = moneyStandardID;
     }
 
     public String getMoneyType() {
-        return moneyType;
+        return this.moneyType;
     }
 
-    public void setMoneyType(String moneyType) {
+    public void setMoneyType(final String moneyType) {
         this.moneyType = moneyType;
     }
 
     public String getPeriod() {
-        return period;
+        return this.period;
     }
 
-    public void setPeriod(String period) {
+    public void setPeriod(final String period) {
         this.period = period;
     }
 
     public String getReceivableDate() {
-        return receivableDate;
+        return this.receivableDate;
     }
 
-    public void setReceivableDate(String receivableDate) {
+    public void setReceivableDate(final String receivableDate) {
         this.receivableDate = receivableDate;
     }
 
     public String getReceivableAmount() {
-        return receivableAmount;
+        return this.receivableAmount;
     }
 
-    public void setReceivableAmount(String receivableAmount) {
+    public void setReceivableAmount(final String receivableAmount) {
         this.receivableAmount = receivableAmount;
     }
 
     public String getRevPenaltyAmount() {
-        return revPenaltyAmount;
+        return this.revPenaltyAmount;
     }
 
-    public void setRevPenaltyAmount(String revPenaltyAmount) {
+    public void setRevPenaltyAmount(final String revPenaltyAmount) {
         this.revPenaltyAmount = revPenaltyAmount;
     }
 
     public String getRevAmount() {
-        return revAmount;
+        return this.revAmount;
     }
 
-    public void setRevAmount(String revAmount) {
+    public void setRevAmount(final String revAmount) {
         this.revAmount = revAmount;
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
     public String getBusinessType() {
-        return businessType;
+        return this.businessType;
     }
 
-    public void setBusinessType(String businessType) {
+    public void setBusinessType(final String businessType) {
         this.businessType = businessType;
     }
 
     public String getStatus() {
-        return status;
+        return this.status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(final String status) {
         this.status = status;
     }
 
     public String getCreator() {
-        return creator;
+        return this.creator;
     }
 
-    public void setCreator(String creator) {
+    public void setCreator(final String creator) {
         this.creator = creator;
     }
 
     public String getCreateTime() {
-        return createTime;
+        return this.createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(final String createTime) {
         this.createTime = createTime;
     }
 
     public String geteCID() {
-        return eCID;
+        return this.eCID;
     }
 
-    public void seteCID(String eCID) {
+    public void seteCID(final String eCID) {
         this.eCID = eCID;
     }
 
     public String getReceiveID() {
-        return receiveID;
+        return this.receiveID;
     }
 
-    public void setReceiveID(String receiveID) {
+    public void setReceiveID(final String receiveID) {
         this.receiveID = receiveID;
     }
 
     public String getQty() {
-        return qty;
+        return this.qty;
     }
 
-    public void setQty(String qty) {
+    public void setQty(final String qty) {
         this.qty = qty;
     }
 
     public String getPrice() {
-        return price;
+        return this.price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(final String price) {
         this.price = price;
     }
 
     public String getDeleteTime() {
-        return deleteTime;
+        return this.deleteTime;
     }
 
-    public void setDeleteTime(String deleteTime) {
+    public void setDeleteTime(final String deleteTime) {
         this.deleteTime = deleteTime;
     }
 
     public String getIsDelete() {
-        return isDelete;
+        return this.isDelete;
     }
 
-    public void setIsDelete(String isDelete) {
+    public void setIsDelete(final String isDelete) {
         this.isDelete = isDelete;
     }
 
     public String getTaxRate() {
-        return taxRate;
+        return this.taxRate;
     }
 
-    public void setTaxRate(String taxRate) {
+    public void setTaxRate(final String taxRate) {
         this.taxRate = taxRate;
     }
 
     public String getTaxAmount() {
-        return taxAmount;
+        return this.taxAmount;
     }
 
-    public void setTaxAmount(String taxAmount) {
+    public void setTaxAmount(final String taxAmount) {
         this.taxAmount = taxAmount;
     }
 
     public String getIncomeAmount() {
-        return incomeAmount;
+        return this.incomeAmount;
     }
 
-    public void setIncomeAmount(String incomeAmount) {
+    public void setIncomeAmount(final String incomeAmount) {
         this.incomeAmount = incomeAmount;
     }
 
     public String getOffSetMoneydefineID() {
-        return offSetMoneydefineID;
+        return this.offSetMoneydefineID;
     }
 
-    public void setOffSetMoneydefineID(String offSetMoneydefineID) {
+    public void setOffSetMoneydefineID(final String offSetMoneydefineID) {
         this.offSetMoneydefineID = offSetMoneydefineID;
     }
 
     public String getMonth() {
-        return month;
+        return this.month;
     }
 
-    public void setMonth(String month) {
+    public void setMonth(final String month) {
         this.month = month;
     }
 
     public String getRatio() {
-        return ratio;
+        return this.ratio;
     }
 
-    public void setRatio(String ratio) {
+    public void setRatio(final String ratio) {
         this.ratio = ratio;
     }
 
     public String getLadderPriceAndValues() {
-        return ladderPriceAndValues;
+        return this.ladderPriceAndValues;
     }
 
-    public void setLadderPriceAndValues(String ladderPriceAndValues) {
+    public void setLadderPriceAndValues(final String ladderPriceAndValues) {
         this.ladderPriceAndValues = ladderPriceAndValues;
     }
 
     public String getInvoicedAmount() {
-        return invoicedAmount;
+        return this.invoicedAmount;
     }
 
-    public void setInvoicedAmount(String invoicedAmount) {
+    public void setInvoicedAmount(final String invoicedAmount) {
         this.invoicedAmount = invoicedAmount;
     }
 
     public String getInvoicedID() {
-        return invoicedID;
+        return this.invoicedID;
     }
 
-    public void setInvoicedID(String invoicedID) {
+    public void setInvoicedID(final String invoicedID) {
         this.invoicedID = invoicedID;
     }
 
     public String getInvoicedType() {
-        return invoicedType;
+        return this.invoicedType;
     }
 
-    public void setInvoicedType(String invoicedType) {
+    public void setInvoicedType(final String invoicedType) {
         this.invoicedType = invoicedType;
     }
 
     public String getDataSourceType() {
-        return dataSourceType;
+        return this.dataSourceType;
     }
 
-    public void setDataSourceType(String dataSourceType) {
+    public void setDataSourceType(final String dataSourceType) {
         this.dataSourceType = dataSourceType;
     }
 
     public String getIsVoucher() {
-        return isVoucher;
+        return this.isVoucher;
     }
 
-    public void setIsVoucher(String isVoucher) {
+    public void setIsVoucher(final String isVoucher) {
         this.isVoucher = isVoucher;
     }
 
     public String getVoucherID() {
-        return voucherID;
+        return this.voucherID;
     }
 
-    public void setVoucherID(String voucherID) {
+    public void setVoucherID(final String voucherID) {
         this.voucherID = voucherID;
     }
 
     public String getReceivePeriod() {
-        return receivePeriod;
+        return this.receivePeriod;
     }
 
-    public void setReceivePeriod(String receivePeriod) {
+    public void setReceivePeriod(final String receivePeriod) {
         this.receivePeriod = receivePeriod;
     }
 
     public String getSettlementTypeID() {
-        return settlementTypeID;
+        return this.settlementTypeID;
     }
 
-    public void setSettlementTypeID(String settlementTypeID) {
+    public void setSettlementTypeID(final String settlementTypeID) {
         this.settlementTypeID = settlementTypeID;
     }
 
     public String getReFundAmount() {
-        return reFundAmount;
+        return this.reFundAmount;
     }
 
-    public void setReFundAmount(String reFundAmount) {
+    public void setReFundAmount(final String reFundAmount) {
         this.reFundAmount = reFundAmount;
     }
 
     public String getReceiveDate() {
-        return receiveDate;
+        return this.receiveDate;
     }
 
-    public void setReceiveDate(String receiveDate) {
+    public void setReceiveDate(final String receiveDate) {
         this.receiveDate = receiveDate;
     }
 
     public String getLastDosage() {
-        return lastDosage;
+        return this.lastDosage;
     }
 
-    public void setLastDosage(String lastDosage) {
+    public void setLastDosage(final String lastDosage) {
         this.lastDosage = lastDosage;
     }
 
     public String getCurrentDosage() {
-        return currentDosage;
+        return this.currentDosage;
     }
 
-    public void setCurrentDosage(String currentDosage) {
+    public void setCurrentDosage(final String currentDosage) {
         this.currentDosage = currentDosage;
     }
 
     public String getRoomID() {
-        return roomID;
+        return this.roomID;
     }
 
-    public void setRoomID(String roomID) {
+    public void setRoomID(final String roomID) {
         this.roomID = roomID;
     }
 
     public String getReceiveStartDate() {
-        return receiveStartDate;
+        return this.receiveStartDate;
     }
 
-    public void setReceiveStartDate(String receiveStartDate) {
+    public void setReceiveStartDate(final String receiveStartDate) {
         this.receiveStartDate = receiveStartDate;
     }
 
     public String getReceiveEndDate() {
-        return receiveEndDate;
+        return this.receiveEndDate;
     }
 
-    public void setReceiveEndDate(String receiveEndDate) {
+    public void setReceiveEndDate(final String receiveEndDate) {
         this.receiveEndDate = receiveEndDate;
     }
 
     public String getReduPenaltyAmount() {
-        return reduPenaltyAmount;
+        return this.reduPenaltyAmount;
     }
 
-    public void setReduPenaltyAmount(String reduPenaltyAmount) {
+    public void setReduPenaltyAmount(final String reduPenaltyAmount) {
         this.reduPenaltyAmount = reduPenaltyAmount;
     }
 
     public String getParentEntryID() {
-        return parentEntryID;
+        return this.parentEntryID;
     }
 
-    public void setParentEntryID(String parentEntryID) {
+    public void setParentEntryID(final String parentEntryID) {
         this.parentEntryID = parentEntryID;
     }
 
     public String getRange() {
-        return range;
+        return this.range;
     }
 
-    public void setRange(String range) {
+    public void setRange(final String range) {
         this.range = range;
     }
 
     public String getInsEntryID() {
-        return insEntryID;
+        return this.insEntryID;
     }
 
-    public void setInsEntryID(String insEntryID) {
+    public void setInsEntryID(final String insEntryID) {
         this.insEntryID = insEntryID;
     }
 
     public String getArPenaltyAmount() {
-        return arPenaltyAmount;
+        return this.arPenaltyAmount;
     }
 
-    public void setArPenaltyAmount(String arPenaltyAmount) {
+    public void setArPenaltyAmount(final String arPenaltyAmount) {
         this.arPenaltyAmount = arPenaltyAmount;
     }
 
     public String getStoreAmount() {
-        return storeAmount;
+        return this.storeAmount;
     }
 
-    public void setStoreAmount(String storeAmount) {
+    public void setStoreAmount(final String storeAmount) {
         this.storeAmount = storeAmount;
     }
 
     public String getStoreBalance() {
-        return storeBalance;
+        return this.storeBalance;
     }
 
-    public void setStoreBalance(String storeBalance) {
+    public void setStoreBalance(final String storeBalance) {
         this.storeBalance = storeBalance;
     }
 
     public String getProjectID() {
-        return projectID;
+        return this.projectID;
     }
 
-    public void setProjectID(String projectID) {
+    public void setProjectID(final String projectID) {
         this.projectID = projectID;
     }
 
     public String getBalanceID() {
-        return balanceID;
+        return this.balanceID;
     }
 
-    public void setBalanceID(String balanceID) {
+    public void setBalanceID(final String balanceID) {
         this.balanceID = balanceID;
     }
 
     public String getIsLock() {
-        return isLock;
+        return this.isLock;
     }
 
-    public void setIsLock(String isLock) {
+    public void setIsLock(final String isLock) {
         this.isLock = isLock;
     }
 
     public String getBillNo() {
-        return billNo;
+        return this.billNo;
     }
 
-    public void setBillNo(String billNo) {
+    public void setBillNo(final String billNo) {
         this.billNo = billNo;
     }
 
     public String getRemark() {
-        return remark;
+        return this.remark;
     }
 
-    public void setRemark(String remark) {
+    public void setRemark(final String remark) {
         this.remark = remark;
     }
 
     public String getIsReducePenalty() {
-        return isReducePenalty;
+        return this.isReducePenalty;
     }
 
-    public void setIsReducePenalty(String isReducePenalty) {
+    public void setIsReducePenalty(final String isReducePenalty) {
         this.isReducePenalty = isReducePenalty;
     }
 
     public String getReceiveCreator() {
-        return receiveCreator;
+        return this.receiveCreator;
     }
 
-    public void setReceiveCreator(String receiveCreator) {
+    public void setReceiveCreator(final String receiveCreator) {
         this.receiveCreator = receiveCreator;
     }
 
     public String getFirstStage() {
-        return firstStage;
+        return this.firstStage;
     }
 
-    public void setFirstStage(String firstStage) {
+    public void setFirstStage(final String firstStage) {
         this.firstStage = firstStage;
     }
 
     public String getIsInvoiced() {
-        return isInvoiced;
+        return this.isInvoiced;
     }
 
-    public void setIsInvoiced(String isInvoiced) {
+    public void setIsInvoiced(final String isInvoiced) {
         this.isInvoiced = isInvoiced;
     }
 
     public String getUpdateTime() {
-        return updateTime;
+        return this.updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(final String updateTime) {
         this.updateTime = updateTime;
     }
 
     public String getOrgID() {
-        return orgID;
+        return this.orgID;
     }
 
-    public void setOrgID(String orgID) {
+    public void setOrgID(final String orgID) {
         this.orgID = orgID;
     }
 
     public String getCustomerID() {
-        return customerID;
+        return this.customerID;
     }
 
-    public void setCustomerID(String customerID) {
+    public void setCustomerID(final String customerID) {
         this.customerID = customerID;
     }
 
     public String getChequeID() {
-        return chequeID;
+        return this.chequeID;
     }
 
-    public void setChequeID(String chequeID) {
+    public void setChequeID(final String chequeID) {
         this.chequeID = chequeID;
     }
 
     public String getChequeNumber() {
-        return chequeNumber;
+        return this.chequeNumber;
     }
 
-    public void setChequeNumber(String chequeNumber) {
+    public void setChequeNumber(final String chequeNumber) {
         this.chequeNumber = chequeNumber;
     }
 
     public String getTranDate() {
-        return tranDate;
+        return this.tranDate;
     }
 
-    public void setTranDate(String tranDate) {
+    public void setTranDate(final String tranDate) {
         this.tranDate = tranDate;
     }
 
     public String getReceiverID() {
-        return receiverID;
+        return this.receiverID;
     }
 
-    public void setReceiverID(String receiverID) {
+    public void setReceiverID(final String receiverID) {
         this.receiverID = receiverID;
     }
 
     public String getBillID() {
-        return billID;
+        return this.billID;
     }
 
-    public void setBillID(String billID) {
+    public void setBillID(final String billID) {
         this.billID = billID;
     }
 
     public String getCancel() {
-        return cancel;
+        return this.cancel;
     }
 
-    public void setCancel(String cancel) {
+    public void setCancel(final String cancel) {
         this.cancel = cancel;
     }
 
     public String getCancelTime() {
-        return cancelTime;
+        return this.cancelTime;
     }
 
-    public void setCancelTime(String cancelTime) {
+    public void setCancelTime(final String cancelTime) {
         this.cancelTime = cancelTime;
     }
 
     public String getIsSms() {
-        return isSms;
+        return this.isSms;
     }
 
-    public void setIsSms(String isSms) {
+    public void setIsSms(final String isSms) {
         this.isSms = isSms;
     }
 
     public String getPrintCount() {
-        return printCount;
+        return this.printCount;
     }
 
-    public void setPrintCount(String printCount) {
+    public void setPrintCount(final String printCount) {
         this.printCount = printCount;
     }
 
     public String getSource() {
-        return source;
+        return this.source;
     }
 
-    public void setSource(String source) {
+    public void setSource(final String source) {
         this.source = source;
     }
 
     public String getSourceState() {
-        return sourceState;
+        return this.sourceState;
     }
 
-    public void setSourceState(String sourceState) {
+    public void setSourceState(final String sourceState) {
         this.sourceState = sourceState;
     }
 
     public String getThirdPayBillID() {
-        return thirdPayBillID;
+        return this.thirdPayBillID;
     }
 
-    public void setThirdPayBillID(String thirdPayBillID) {
+    public void setThirdPayBillID(final String thirdPayBillID) {
         this.thirdPayBillID = thirdPayBillID;
     }
 
     public String getIsRefund() {
-        return isRefund;
+        return this.isRefund;
     }
 
-    public void setIsRefund(String isRefund) {
+    public void setIsRefund(final String isRefund) {
         this.isRefund = isRefund;
     }
 
     public String getSettEntryName() {
-        return settEntryName;
+        return this.settEntryName;
     }
 
-    public void setSettEntryName(String settEntryName) {
+    public void setSettEntryName(final String settEntryName) {
         this.settEntryName = settEntryName;
     }
 
     public String getLockDescription() {
-        return lockDescription;
+        return this.lockDescription;
     }
 
-    public void setLockDescription(String lockDescription) {
+    public void setLockDescription(final String lockDescription) {
         this.lockDescription = lockDescription;
     }
 
     public String getIsConfirm() {
-        return isConfirm;
+        return this.isConfirm;
     }
 
-    public void setIsConfirm(String isConfirm) {
+    public void setIsConfirm(final String isConfirm) {
         this.isConfirm = isConfirm;
     }
 
     public String getTradeNo() {
-        return tradeNo;
+        return this.tradeNo;
     }
 
-    public void setTradeNo(String tradeNo) {
+    public void setTradeNo(final String tradeNo) {
         this.tradeNo = tradeNo;
     }
 
     public String getContributors() {
-        return contributors;
+        return this.contributors;
     }
 
-    public void setContributors(String contributors) {
+    public void setContributors(final String contributors) {
         this.contributors = contributors;
     }
 
     public String getContributor() {
-        return contributor;
+        return this.contributor;
     }
 
-    public void setContributor(String contributor) {
+    public void setContributor(final String contributor) {
         this.contributor = contributor;
     }
 
     public String getBillType() {
-        return billType;
+        return this.billType;
     }
 
-    public void setBillType(String billType) {
+    public void setBillType(final String billType) {
         this.billType = billType;
     }
 
     public String getOverRevAmount() {
-        return overRevAmount;
+        return this.overRevAmount;
     }
 
-    public void setOverRevAmount(String overRevAmount) {
+    public void setOverRevAmount(final String overRevAmount) {
         this.overRevAmount = overRevAmount;
     }
 
     public String getIdentifyPeople() {
-        return identifyPeople;
+        return this.identifyPeople;
     }
 
-    public void setIdentifyPeople(String identifyPeople) {
+    public void setIdentifyPeople(final String identifyPeople) {
         this.identifyPeople = identifyPeople;
     }
 
     public String getFileIDs() {
-        return fileIDs;
+        return this.fileIDs;
     }
 
-    public void setFileIDs(String fileIDs) {
+    public void setFileIDs(final String fileIDs) {
         this.fileIDs = fileIDs;
     }
 
     public String getReceiptWriter() {
-        return receiptWriter;
+        return this.receiptWriter;
     }
 
-    public void setReceiptWriter(String receiptWriter) {
+    public void setReceiptWriter(final String receiptWriter) {
         this.receiptWriter = receiptWriter;
     }
 
     public String getReceiptWriteTime() {
-        return receiptWriteTime;
+        return this.receiptWriteTime;
     }
 
-    public void setReceiptWriteTime(String receiptWriteTime) {
+    public void setReceiptWriteTime(final String receiptWriteTime) {
         this.receiptWriteTime = receiptWriteTime;
     }
 
     public String getReceiptOperator() {
-        return receiptOperator;
+        return this.receiptOperator;
     }
 
-    public void setReceiptOperator(String receiptOperator) {
+    public void setReceiptOperator(final String receiptOperator) {
         this.receiptOperator = receiptOperator;
     }
 
     public String getConfirmCancelDescription() {
-        return confirmCancelDescription;
+        return this.confirmCancelDescription;
     }
 
-    public void setConfirmCancelDescription(String confirmCancelDescription) {
+    public void setConfirmCancelDescription(final String confirmCancelDescription) {
         this.confirmCancelDescription = confirmCancelDescription;
     }
 
     public String getConfirmReceiptDate() {
-        return confirmReceiptDate;
+        return this.confirmReceiptDate;
     }
 
-    public void setConfirmReceiptDate(String confirmReceiptDate) {
+    public void setConfirmReceiptDate(final String confirmReceiptDate) {
         this.confirmReceiptDate = confirmReceiptDate;
+    }
+
+    public String getBillIsDelete() {
+        return this.billIsDelete;
+    }
+
+    public void setBillIsDelete(final String billIsDelete) {
+        this.billIsDelete = billIsDelete;
+    }
+
+    public String getBillDeleteTime() {
+        return this.billDeleteTime;
+    }
+
+    public void setBillDeleteTime(final String billDeleteTime) {
+        this.billDeleteTime = billDeleteTime;
+    }
+
+    public String getBillStatus() {
+        return this.billStatus;
+    }
+
+    public void setBillStatus(final String billStatus) {
+        this.billStatus = billStatus;
+    }
+
+    public String getProjectName() {
+        return this.projectName;
+    }
+
+    public void setProjectName(final String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getReceiverName() {
+        return this.receiverName;
+    }
+
+    public void setReceiverName(final String receiverName) {
+        this.receiverName = receiverName;
+    }
+
+    public String getMoneyDefineName() {
+        return this.moneyDefineName;
+    }
+
+    public void setMoneyDefineName(final String moneyDefineName) {
+        this.moneyDefineName = moneyDefineName;
+    }
+
+    public String getSettlementTypeName() {
+        return this.settlementTypeName;
+    }
+
+    public void setSettlementTypeName(final String settlementTypeName) {
+        this.settlementTypeName = settlementTypeName;
+    }
+
+    public String getSettlementTypeIsDelete() {
+        return this.settlementTypeIsDelete;
+    }
+
+    public void setSettlementTypeIsDelete(final String settlementTypeIsDelete) {
+        this.settlementTypeIsDelete = settlementTypeIsDelete;
+    }
+
+    public String getRoomName() {
+        return this.roomName;
+    }
+
+    public void setRoomName(final String roomName) {
+        this.roomName = roomName;
     }
 }

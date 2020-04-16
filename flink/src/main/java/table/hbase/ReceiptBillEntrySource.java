@@ -181,7 +181,7 @@ public class ReceiptBillEntrySource extends RichSourceFunction<ODS_ReceiptBillEn
                 }else if ("FIsInvoiced".equals(column)){//3.headID
                     receiptBillEntryVo.setIsInvoiced(Bytes.toString(CellUtil.cloneValue(cell)));
                 }else if ("FUpdateTime".equals(column)){//3.headID
-                    receiptBillEntryVo.setFUpdateTime(Bytes.toString(CellUtil.cloneValue(cell)));
+                    receiptBillEntryVo.setUpdateTime(Bytes.toString(CellUtil.cloneValue(cell)));
                 }
             }
             sourceContext.collect(receiptBillEntryVo);

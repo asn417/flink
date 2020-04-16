@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @Author: wangsen
  * @Date: 2020/4/13 20:25
- * @Description:
+ * @Description:收款单事实表
  **/
 public class ODS_ReceiptBillVo implements Serializable {
 
@@ -29,6 +29,7 @@ public class ODS_ReceiptBillVo implements Serializable {
     private String createTime;
     private String eCID;
     private String period;
+    //收款类型，0收款，1退款
     private String businessType;
     private String isVoucher;
     private String cancel;

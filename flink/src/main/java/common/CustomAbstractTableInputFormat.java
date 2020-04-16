@@ -113,7 +113,7 @@ public abstract class CustomAbstractTableInputFormat<T> extends RichInputFormat<
             throw new IOException("No table result scanner provided!");
         }
         try {
-            Result res = resultScanner.next();
+            Result res = resultScanner.next();//有可能超时
             if (res != null) {
                 scannedRows++;
                 currentRow = res.getRow();

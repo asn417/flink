@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @Author: wangsen
  * @Date: 2020/4/13 23:17
- * @Description:
+ * @Description:实收分录事实表
  **/
 public class ODS_ReceiptBillEntryVo implements Serializable {
 
@@ -71,7 +71,7 @@ public class ODS_ReceiptBillEntryVo implements Serializable {
     private String receiveCreator;
     private String firstStage;
     private String isInvoiced;
-    private String FUpdateTime;
+    private String updateTime;
 
 
     public String getiD() {
@@ -554,11 +554,11 @@ public class ODS_ReceiptBillEntryVo implements Serializable {
         this.isInvoiced = isInvoiced;
     }
 
-    public String getFUpdateTime() {
-        return FUpdateTime;
+    public String getUpdateTime() {
+        return this.updateTime;
     }
 
-    public void setFUpdateTime(String FUpdateTime) {
-        this.FUpdateTime = FUpdateTime;
+    public void setUpdateTime(final String updateTime) {
+        this.updateTime = updateTime;
     }
 }
