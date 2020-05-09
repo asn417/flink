@@ -30,8 +30,8 @@ public class ReadHbaseByDDL {
                 "  'connector.version' = '1.4.3',          -- required: valid connector versions are \"1.4.3\"\n" +
                 "  \n" +
                 "  'connector.table-name' = 'test',  -- required: hbase table name\n" +
-                "  \n" +
-                "  'connector.zookeeper.quorum' = '172.20.184.17:2181', -- required: HBase Zookeeper quorum configuration\n" +
+                "  \n" +"-- zookeeper配置不生效.a.h.h.zookeeper.ReadOnlyZKClient - Connect 0x63fe0d85 to localhost:2181 with session timeout=90000ms, retries 30, retry interval 1000ms\n"+
+                "  'connector.zookeeper.quorum' = 'master:2181', -- required: HBase Zookeeper quorum configuration\n" +
                 "\n" +
                 "  'connector.write.buffer-flush.max-size' = '10mb', -- optional: writing option, determines how many size in memory of buffered\n" +
                 "                                                    -- rows to insert per round trip. This can help performance on writing to JDBC\n" +
