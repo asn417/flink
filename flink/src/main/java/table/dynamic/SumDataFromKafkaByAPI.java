@@ -48,8 +48,7 @@ public class SumDataFromKafkaByAPI {
                 .field("user", DataTypes.STRING())
                 //.field("age","BigDecimal")
                 .field("age",DataTypes.DECIMAL(38,18))
-        ).createTemporaryTable("MyUserTable");
-
+        ).createTemporaryTable("MyUserTable");//1.9版本注册表使用的是registerTable，1.10废弃了，改用createTemporaryTable
         String query = "SELECT user,SUM(age) as countage FROM MyUserTable group by user";
         Table table = tableEnvironment.sqlQuery(query);
         DataStream<Tuple2<Boolean, UserVo>> rowDataStream = tableEnvironment.toRetractStream(table, UserVo.class);
