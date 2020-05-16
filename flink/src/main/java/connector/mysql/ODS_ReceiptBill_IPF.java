@@ -1,6 +1,6 @@
 package connector.mysql;
 
-import entity.ods.ODS_ReceiptBillVo;
+import warehouse.ods.entity.ODS_ReceiptBillVo;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 import org.slf4j.Logger;

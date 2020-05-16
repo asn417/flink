@@ -1,6 +1,7 @@
-package entity.ods;
+package warehouse.ods.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @Author: wangsen
@@ -20,8 +21,8 @@ public class ODS_ReceiptBillEntryVo implements Serializable {
     private String period;
     private String receivableDate;
     private String receivableAmount;
-    private String revPenaltyAmount;
-    private String revAmount;
+    private BigDecimal revPenaltyAmount;
+    private BigDecimal revAmount;
     private String description;
     private String businessType;
     private String status;
@@ -146,19 +147,19 @@ public class ODS_ReceiptBillEntryVo implements Serializable {
         this.receivableAmount = receivableAmount;
     }
 
-    public String getRevPenaltyAmount() {
+    public BigDecimal getRevPenaltyAmount() {
         return revPenaltyAmount;
     }
 
-    public void setRevPenaltyAmount(String revPenaltyAmount) {
+    public void setRevPenaltyAmount(BigDecimal revPenaltyAmount) {
         this.revPenaltyAmount = revPenaltyAmount;
     }
 
-    public String getRevAmount() {
+    public BigDecimal getRevAmount() {
         return revAmount;
     }
 
-    public void setRevAmount(String revAmount) {
+    public void setRevAmount(BigDecimal revAmount) {
         this.revAmount = revAmount;
     }
 

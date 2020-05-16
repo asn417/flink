@@ -11,10 +11,13 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @Auther: LiaoPeng
- * @Date: 2019/12/13
- */
+/***
+ * @Author: wangsen
+ * @Description:
+ * @Date: 2020/5/13
+ * @Param:
+ * @Return:
+ **/
 public class ObjectUtil {
 
     private final static String GET_PREFIX = "get";
@@ -128,6 +131,5 @@ public class ObjectUtil {
         }
         return clazz;
     }
-
 }
 

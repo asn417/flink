@@ -1,53 +1,70 @@
-package batch.dwd;
+package warehouse.dws.sink;
 
-import com.ctrip.framework.apollo.Config;
-import com.ctrip.framework.apollo.ConfigService;
-import warehouse.dwd.entity.DWD_ReceiptBillEntryVo;
 import org.apache.commons.lang.StringUtils;
-import org.apache.flink.api.common.io.OutputFormat;
 import org.apache.flink.configuration.Configuration;
-import org.apache.hadoop.hbase.*;
+import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.NamespaceDescriptor;
+import org.apache.hadoop.hbase.NamespaceExistException;
+import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.ObjectUtil;
+import utils.RowKeyUtil;
+import warehouse.dws.entity.DWS_ReceiptBillEntrySumVo;
 
 import java.io.IOException;
 import java.util.*;
 
 /**
  * @Author: wangsen
- * @Date: 2020/4/14 21:41
+ * @Date: 2020/5/13 10:10
  * @Description:
  **/
-public class DWD_ReceiptBillEntry_OPF implements OutputFormat<DWD_ReceiptBillEntryVo> {
-    private static final Logger logger = LoggerFactory.getLogger(DWD_ReceiptBillEntry_OPF.class);
-    private org.apache.hadoop.conf.Configuration config = null;
+public class DWS_ReceiptBillEntrySum_Sink extends RichSinkFunction<DWS_ReceiptBillEntrySumVo> {
+
+    private static final Logger logger = LoggerFactory.getLogger(DWS_ReceiptBillEntrySum_Sink.class);
+
     private Connection conn = null;
     private Table table = null;
     private Admin admin = null;
-    @Override
-    public void configure(Configuration configuration) {
 
-    }
+
+    private static String zkServer;
+    private static String zkPort;
+    private static TableName tableName;
+
+    private static final String cf = "cf";
+    BufferedMutatorParams params;
+    BufferedMutator mutator;
 
     @Override
-    public void open(int i, int i1) throws IOException {
-        config = HBaseConfiguration.create();
-        Config apolloConfig = ConfigService.getConfig("hbase");
-        config.set(HConstants.ZOOKEEPER_QUORUM, apolloConfig.getProperty("hbase.zookeeper.quorum","172.20.184.17"));
-        config.set(HConstants.ZOOKEEPER_CLIENT_PORT, apolloConfig.getProperty("hbase.zookeeper.property.clientPort","2181"));
-        config.setInt(HConstants.HBASE_CLIENT_OPERATION_TIMEOUT, 30000);
-        config.setInt(HConstants.HBASE_CLIENT_SCANNER_TIMEOUT_PERIOD, 30000);
+    public void open(Configuration parameters) throws Exception {
+        /*ParameterTool para = (ParameterTool) getRuntimeContext().getExecutionConfig().getGlobalJobParameters();
+        zkServer = para.getRequired("hbase.zkServer");
+        zkPort = para.getRequired("hbase.zkPort");
+        String tName = para.getRequired("hbase.tableName");
+        tableName = TableName.valueOf(tName);*/
+
+        zkServer = "172.20.184.17";
+        zkPort = "2181";
+        tableName = TableName.valueOf("dws_owner_cloud:dws_receiptBillEntrySum");
+
+        org.apache.hadoop.conf.Configuration config = HBaseConfiguration.create();
+
+        config.set("hbase.zookeeper.quorum", zkServer);
+        config.set("hbase.zookeeper.property.clientPort", zkPort);
+
         conn = ConnectionFactory.createConnection(config);
         admin = conn.getAdmin();
 
-        if (!admin.tableExists(TableName.valueOf("dwd_owner_cloud:dwd_receiptBillEntry"))){
+        if (!admin.tableExists(tableName)){
             try {
-                admin.createNamespace(NamespaceDescriptor.create("dwd_owner_cloud").build());
+                admin.createNamespace(NamespaceDescriptor.create("dws_owner_cloud").build());
             } catch (NamespaceExistException e) {
-                logger.info("dwd_owner_cloud: 命名空间已存在！");
+                logger.info("dws_owner_cloud: 命名空间已存在！");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -56,34 +73,37 @@ public class DWD_ReceiptBillEntry_OPF implements OutputFormat<DWD_ReceiptBillEnt
 
             byte[][] splitKeys = getSplitKeys(Arrays.asList(keys));
             String[] cf = {"cf"};
-            createTableBySplitKeys("dwd_owner_cloud:dwd_receiptBillEntry",Arrays.asList(cf),splitKeys,true);
+            createTableBySplitKeys("dws_owner_cloud:dws_receiptBillEntrySum",Arrays.asList(cf),splitKeys,true);
         }
 
-        table = conn.getTable(TableName.valueOf("dwd_owner_cloud:dwd_receiptBillEntry"));
+        table = conn.getTable(TableName.valueOf("dws_owner_cloud:dws_receiptBillEntrySum"));
 
+        // 设置缓存
+        params = new BufferedMutatorParams(tableName);
+        params.writeBufferSize(1024);
+        mutator = conn.getBufferedMutator(params);
     }
 
     @Override
-    public void writeRecord(DWD_ReceiptBillEntryVo dwd_receiptBillEntryVo) throws IOException {
-        Put put = new Put(Bytes.toBytes(dwd_receiptBillEntryVo.getiD()));
-        Map<String, Object> map = ObjectUtil.toMap(dwd_receiptBillEntryVo);
+    public void invoke(DWS_ReceiptBillEntrySumVo record, Context context) throws Exception {
+        Put put = new Put(Bytes.toBytes(RowKeyUtil.generateShortUuid8()));
+        Map<String, Object> map = ObjectUtil.toMap(record);
         for (Map.Entry<String, Object> entry:map.entrySet()){
             if (!"iD".equals(entry.getKey()) && entry.getValue() != null){
-                put.addColumn(Bytes.toBytes("cf"), Bytes.toBytes(entry.getKey().toString()), Bytes.toBytes(entry.getValue().toString()));
+                put.addColumn(Bytes.toBytes(cf), Bytes.toBytes(entry.getKey().toString()), Bytes.toBytes(entry.getValue().toString()));
             }
         }
-        table.put(put);
+        //table.put(put);
+        mutator.mutate(put);
     }
 
     @Override
-    public void close() throws IOException {
-        if (table != null) {
-            table.close();
-        }
-        if (conn != null) {
-            conn.close();
-        }
+    public void close() throws Exception {
+        mutator.flush();
+        conn.close();
     }
+
+
     private byte[][] getSplitKeys(List<String> keys) {
         byte[][] splitKeys = new byte[keys.size()][];
         TreeSet<byte[]> rows = new TreeSet<byte[]>(Bytes.BYTES_COMPARATOR);//升序排序
@@ -124,4 +144,5 @@ public class DWD_ReceiptBillEntry_OPF implements OutputFormat<DWD_ReceiptBillEnt
                 + " Success!columnFamily:" + columnFamily.toString()
                 + "===");
     }
+
 }

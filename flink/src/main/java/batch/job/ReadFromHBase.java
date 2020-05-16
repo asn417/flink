@@ -1,16 +1,12 @@
 package batch.job;
 
-import batch.dwd.DWD_ReceiptBillEntry_OPF;
 import batch.ods.*;
-import entity.dwd.DWD_ReceiptBillEntryVo;
-import entity.ods.*;
-import org.apache.commons.lang.StringUtils;
+import warehouse.dwd.entity.DWD_ReceiptBillEntryVo;
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.JoinFunction;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
-import org.apache.flink.api.java.operators.FilterOperator;
-import org.apache.flink.api.java.operators.JoinOperator;
+import warehouse.ods.entity.*;
 
 /**
  * @Author: wangsen

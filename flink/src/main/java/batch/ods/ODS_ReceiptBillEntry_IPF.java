@@ -3,16 +3,13 @@ package batch.ods;
 import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.ConfigService;
 import common.CustomTableInputFormat;
-import entity.ods.ODS_ReceiptBillEntryVo;
-import org.apache.flink.api.java.tuple.Tuple2;
+import warehouse.ods.entity.ODS_ReceiptBillEntryVo;
 import org.apache.flink.configuration.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import table.hbase.HBaseUtils;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * @Author: wangsen
@@ -76,9 +73,9 @@ public class ODS_ReceiptBillEntry_IPF extends CustomTableInputFormat<ODS_Receipt
             }else if ("FReceivableAmount".equals(column)){//3.headID
                 receiptBillEntryVo.setReceivableAmount(Bytes.toString(CellUtil.cloneValue(cell)));
             }else if ("FRevPenaltyAmount".equals(column)){//3.headID
-                receiptBillEntryVo.setRevPenaltyAmount(Bytes.toString(CellUtil.cloneValue(cell)));
+                receiptBillEntryVo.setRevPenaltyAmount(Bytes.toBigDecimal(CellUtil.cloneValue(cell)));
             }else if ("FRevAmount".equals(column)){//3.headID
-                receiptBillEntryVo.setRevAmount(Bytes.toString(CellUtil.cloneValue(cell)));
+                receiptBillEntryVo.setRevAmount(Bytes.toBigDecimal(CellUtil.cloneValue(cell)));
             }else if ("FDescription".equals(column)){//3.headID
                 receiptBillEntryVo.setDescription(Bytes.toString(CellUtil.cloneValue(cell)));
             }else if ("FBusinessType".equals(column)){//3.headID

@@ -1,8 +1,7 @@
 package batch.job;
 
 import batch.dwd.DWD_ReceiptBillEntry_IPF;
-import entity.dwd.DWD_ReceiptBillEntryVo;
-import entity.dws.DWS_ReceiptBillEntrySumVo;
+import warehouse.dwd.entity.DWD_ReceiptBillEntryVo;
 import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;

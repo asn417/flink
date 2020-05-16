@@ -6,12 +6,13 @@ package connector.mysql;
  * @Description:
  **/
 
-import entity.ods.ODS_ReceiptBillEntryVo;
+import warehouse.ods.entity.ODS_ReceiptBillEntryVo;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -51,8 +52,8 @@ public class ODS_ReceiptBillEntry_IPF extends RichSourceFunction<ODS_ReceiptBill
                 receiptBillEntryVo.setPeriod(resultSet.getString("FPeriod"));
                 receiptBillEntryVo.setReceivableDate(resultSet.getString("FReceivableDate"));
                 receiptBillEntryVo.setReceivableAmount(resultSet.getString("FReceivableAmount"));
-                receiptBillEntryVo.setRevPenaltyAmount(resultSet.getString("FRevPenaltyAmount"));
-                receiptBillEntryVo.setRevAmount(resultSet.getString("FRevAmount"));
+                receiptBillEntryVo.setRevPenaltyAmount(new BigDecimal(resultSet.getString("FRevPenaltyAmount")));
+                receiptBillEntryVo.setRevAmount(new BigDecimal(resultSet.getString("FRevAmount")));
                 receiptBillEntryVo.setDescription(resultSet.getString("FDescription"));
                 receiptBillEntryVo.setBusinessType(resultSet.getString("FBusinessType"));
                 receiptBillEntryVo.setStatus(resultSet.getString("FStatus"));

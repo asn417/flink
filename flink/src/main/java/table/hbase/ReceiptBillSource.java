@@ -2,7 +2,7 @@ package table.hbase;
 
 import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.ConfigService;
-import entity.ods.ODS_ReceiptBillVo;
+import warehouse.ods.entity.ODS_ReceiptBillVo;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 import org.apache.hadoop.hbase.*;

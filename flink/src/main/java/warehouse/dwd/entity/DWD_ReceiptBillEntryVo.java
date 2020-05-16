@@ -1,6 +1,7 @@
-package entity.dwd;
+package warehouse.dwd.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @Author: wangsen
@@ -21,8 +22,8 @@ public class DWD_ReceiptBillEntryVo implements Serializable {
     private String period;
     private String receivableDate;
     private String receivableAmount;
-    private String revPenaltyAmount;
-    private String revAmount;
+    private BigDecimal revPenaltyAmount;
+    private BigDecimal revAmount;
     private String description;
     private String businessType;
     private String status;
@@ -124,7 +125,7 @@ public class DWD_ReceiptBillEntryVo implements Serializable {
 
     //t_pc_room->room（部分字段）
     private String roomName;
-
+    private String roomProperty;
 
 
 
@@ -200,19 +201,19 @@ public class DWD_ReceiptBillEntryVo implements Serializable {
         this.receivableAmount = receivableAmount;
     }
 
-    public String getRevPenaltyAmount() {
+    public BigDecimal getRevPenaltyAmount() {
         return this.revPenaltyAmount;
     }
 
-    public void setRevPenaltyAmount(final String revPenaltyAmount) {
+    public void setRevPenaltyAmount(final BigDecimal revPenaltyAmount) {
         this.revPenaltyAmount = revPenaltyAmount;
     }
 
-    public String getRevAmount() {
+    public BigDecimal getRevAmount() {
         return this.revAmount;
     }
 
-    public void setRevAmount(final String revAmount) {
+    public void setRevAmount(final BigDecimal revAmount) {
         this.revAmount = revAmount;
     }
 
@@ -926,5 +927,13 @@ public class DWD_ReceiptBillEntryVo implements Serializable {
 
     public void setRoomName(final String roomName) {
         this.roomName = roomName;
+    }
+
+    public String getRoomProperty() {
+        return this.roomProperty;
+    }
+
+    public void setRoomProperty(final String roomProperty) {
+        this.roomProperty = roomProperty;
     }
 }

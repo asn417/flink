@@ -3,8 +3,7 @@ package batch.dwd;
 import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.ConfigService;
 import common.CustomTableInputFormat;
-import entity.dwd.DWD_ReceiptBillEntryVo;
-import entity.ods.ODS_ReceiptBillEntryVo;
+import warehouse.dwd.entity.DWD_ReceiptBillEntryVo;
 import org.apache.flink.configuration.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
@@ -75,9 +74,9 @@ public class DWD_ReceiptBillEntry_IPF extends CustomTableInputFormat<DWD_Receipt
             }else if ("FReceivableAmount".equals(column)){//3.headID
                 receiptBillEntryVo.setReceivableAmount(Bytes.toString(CellUtil.cloneValue(cell)));
             }else if ("FRevPenaltyAmount".equals(column)){//3.headID
-                receiptBillEntryVo.setRevPenaltyAmount(Bytes.toString(CellUtil.cloneValue(cell)));
+                receiptBillEntryVo.setRevPenaltyAmount(Bytes.toBigDecimal(CellUtil.cloneValue(cell)));
             }else if ("FRevAmount".equals(column)){//3.headID
-                receiptBillEntryVo.setRevAmount(Bytes.toString(CellUtil.cloneValue(cell)));
+                receiptBillEntryVo.setRevAmount(Bytes.toBigDecimal(CellUtil.cloneValue(cell)));
             }else if ("FDescription".equals(column)){//3.headID
                 receiptBillEntryVo.setDescription(Bytes.toString(CellUtil.cloneValue(cell)));
             }else if ("FBusinessType".equals(column)){//3.headID

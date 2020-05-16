@@ -1,4 +1,4 @@
-package entity.ods;
+package warehouse.ods.entity;
 
 import java.io.Serializable;
 

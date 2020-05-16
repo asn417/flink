@@ -3,7 +3,7 @@ package batch.ods;
 import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.ConfigService;
 import common.CustomTableInputFormat;
-import entity.ods.ODS_SettlementTypeVo;
+import warehouse.ods.entity.ODS_SettlementTypeVo;
 import org.apache.flink.configuration.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;

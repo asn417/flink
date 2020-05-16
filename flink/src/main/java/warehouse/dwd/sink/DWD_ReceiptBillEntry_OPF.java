@@ -1,8 +1,7 @@
-package batch.dwd;
+package warehouse.dwd.sink;
 
 import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.ConfigService;
-import warehouse.dwd.entity.DWD_ReceiptBillEntryVo;
 import org.apache.commons.lang.StringUtils;
 import org.apache.flink.api.common.io.OutputFormat;
 import org.apache.flink.configuration.Configuration;
@@ -12,13 +11,14 @@ import org.apache.hadoop.hbase.util.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.ObjectUtil;
+import warehouse.dwd.entity.DWD_ReceiptBillEntryVo;
 
 import java.io.IOException;
 import java.util.*;
 
 /**
  * @Author: wangsen
- * @Date: 2020/4/14 21:41
+ * @Date: 2020/5/11 15:07
  * @Description:
  **/
 public class DWD_ReceiptBillEntry_OPF implements OutputFormat<DWD_ReceiptBillEntryVo> {

@@ -1,7 +1,7 @@
 package table.hbase;
 
-import entity.ods.ODS_ReceiptBillEntryVo;
-import entity.ods.ODS_ReceiptBillVo;
+import warehouse.ods.entity.ODS_ReceiptBillEntryVo;
+import warehouse.ods.entity.ODS_ReceiptBillVo;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;

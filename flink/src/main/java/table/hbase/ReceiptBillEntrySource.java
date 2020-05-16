@@ -2,15 +2,12 @@ package table.hbase;
 
 import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.ConfigService;
-import entity.ods.ODS_ReceiptBillEntryVo;
+import warehouse.ods.entity.ODS_ReceiptBillEntryVo;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @Author: wangsen
@@ -79,9 +76,9 @@ public class ReceiptBillEntrySource extends RichSourceFunction<ODS_ReceiptBillEn
                 }else if ("FReceivableAmount".equals(column)){//3.headID
                     receiptBillEntryVo.setReceivableAmount(Bytes.toString(CellUtil.cloneValue(cell)));
                 }else if ("FRevPenaltyAmount".equals(column)){//3.headID
-                    receiptBillEntryVo.setRevPenaltyAmount(Bytes.toString(CellUtil.cloneValue(cell)));
+                    receiptBillEntryVo.setRevPenaltyAmount(Bytes.toBigDecimal(CellUtil.cloneValue(cell)));
                 }else if ("FRevAmount".equals(column)){//3.headID
-                    receiptBillEntryVo.setRevAmount(Bytes.toString(CellUtil.cloneValue(cell)));
+                    receiptBillEntryVo.setRevAmount(Bytes.toBigDecimal(CellUtil.cloneValue(cell)));
                 }else if ("FDescription".equals(column)){//3.headID
                     receiptBillEntryVo.setDescription(Bytes.toString(CellUtil.cloneValue(cell)));
                 }else if ("FBusinessType".equals(column)){//3.headID

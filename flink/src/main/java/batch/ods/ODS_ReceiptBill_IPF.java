@@ -3,15 +3,13 @@ package batch.ods;
 import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.ConfigService;
 import common.CustomTableInputFormat;
-import entity.ods.ODS_ReceiptBillVo;
+import warehouse.ods.entity.ODS_ReceiptBillVo;
 import org.apache.flink.configuration.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
-import table.hbase.HBaseUtils;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * @Author: wangsen
