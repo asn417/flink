@@ -16,7 +16,7 @@ import warehouse.dws.entity.DWS_ReceiptBillEntrySumVo;
 /**
  * @Author: wangsen
  * @Date: 2020/5/15 13:41
- * @Description: 收款人+结算方式+款项+收款类型+收款日期
+ * @Description: 结算方式+款项+收款类型+收款日期
  **/
 public class Dimension2 {
     public static void main(String[] args) throws Exception {
