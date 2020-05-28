@@ -42,9 +42,7 @@ public class HbaseProcess extends ProcessFunction<String, String> {
             config.setInt(HConstants.HBASE_CLIENT_OPERATION_TIMEOUT, 30000);
             config.setInt(HConstants.HBASE_CLIENT_SCANNER_TIMEOUT_PERIOD, 30000);
             connection = ConnectionFactory.createConnection(config);
-
             TableName tableName = TableName.valueOf("test");
-
             // 获取表对象
             table = connection.getTable(tableName);
 

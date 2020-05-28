@@ -29,7 +29,7 @@ public class TestKafkaCheckpoint {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         //设置checkpoint的周期，每隔1秒进行一次checkpoint。并设置exactly once语义。
-        env.enableCheckpointing(1000, CheckpointingMode.EXACTLY_ONCE);
+        env.enableCheckpointing(60000, CheckpointingMode.EXACTLY_ONCE);
         //设置StateBackend存储路径。后面的true表示每次增量同步checkpoint，而不是全量同步一遍。提高性能
         env.setStateBackend(new RocksDBStateBackend("hdfs://master:9000/flink/checkpoints",true));
 
@@ -59,7 +59,6 @@ public class TestKafkaCheckpoint {
                 return value;
             }
         });
-
         //stream.print("test-topic:");
         stream.process(new HbaseProcess());
 
