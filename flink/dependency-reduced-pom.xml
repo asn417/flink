@@ -7,6 +7,18 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>flink</artifactId>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M3</version>
+        <configuration>
+          <forkCount>0</forkCount>
+          <testFailureIgnore>true</testFailureIgnore>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
       <groupId>org.apache.flink</groupId>
