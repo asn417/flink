@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Flink.ITransferBillDao">
+
+    <select id="getData" parameterType="Flink.TransferBillVo" resultType="map">
+        select CONCAT(SUBSTR(transfer.FProjectID,1,8),SUBSTR(transfer.FPeriod FROM 1 FOR 4),UUID_SHORT()) AS rowkey,transfer.FRemark as remark,
+			 transfer.FProjectID as projectID,project.FName as projectName,room.FBuildingID as buildingID,room.FBuildingName as buildingName,
+			 transfer.FRoomID as roomID,room.FName as roomName,transfer.FCustomerID as customerID,customer.FName as customerName,transfer.FMoneyDefineID as moneyDefineID,
+			 moneyDefine.FName as moneyDefineName,productType.FID as productTypeID,productType.FName as productTypeName,
+			 IF(transfer.FType in (5,8,9),5,1) as transferType,SUBSTR(transfer.FPeriod FROM 1 FOR 4) `year`,
+			 IF(SUBSTR(transfer.FPeriod FROM 6)='01', sum(transfer.FRevAmount + IFNULL(transfer.FRevPenaltyAmount,0)), 0) AS Jan,
+			 IF(SUBSTR(transfer.FPeriod FROM 6)='02', sum(transfer.FRevAmount + IFNULL(transfer.FRevPenaltyAmount,0)), 0) AS Feb,
+			 IF(SUBSTR(transfer.FPeriod FROM 6)='03', sum(transfer.FRevAmount + IFNULL(transfer.FRevPenaltyAmount,0)), 0) AS Mar,
+			 IF(SUBSTR(transfer.FPeriod FROM 6)='04', sum(transfer.FRevAmount + IFNULL(transfer.FRevPenaltyAmount,0)), 0) AS Apr,
+			 IF(SUBSTR(transfer.FPeriod FROM 6)='05', sum(transfer.FRevAmount + IFNULL(transfer.FRevPenaltyAmount,0)), 0) AS May,
+			 IF(SUBSTR(transfer.FPeriod FROM 6)='06', sum(transfer.FRevAmount + IFNULL(transfer.FRevPenaltyAmount,0)), 0) AS Jun,
+			 IF(SUBSTR(transfer.FPeriod FROM 6)='07', sum(transfer.FRevAmount + IFNULL(transfer.FRevPenaltyAmount,0)), 0) AS Jul,
+			 IF(SUBSTR(transfer.FPeriod FROM 6)='08', sum(transfer.FRevAmount + IFNULL(transfer.FRevPenaltyAmount,0)), 0) AS Aug,
+			 IF(SUBSTR(transfer.FPeriod FROM 6)='09', sum(transfer.FRevAmount + IFNULL(transfer.FRevPenaltyAmount,0)), 0) AS Sep,
+			 IF(SUBSTR(transfer.FPeriod FROM 6)='10', sum(transfer.FRevAmount + IFNULL(transfer.FRevPenaltyAmount,0)), 0) AS Oct,
+			 IF(SUBSTR(transfer.FPeriod FROM 6)='11', sum(transfer.FRevAmount + IFNULL(transfer.FRevPenaltyAmount,0)), 0) AS Nov,
+			 IF(SUBSTR(transfer.FPeriod FROM 6)='12', sum(transfer.FRevAmount + IFNULL(transfer.FRevPenaltyAmount,0)), 0) AS `Dec`,
+			 sum(transfer.FRevAmount + IFNULL(transfer.FRevPenaltyAmount,0)) AS total
+            from ${table} transfer
+            left join T_PC_Room room on transfer.FRoomID = room.FID
+            left join T_PC_Customer customer on customer.FID = transfer.FCustomerID
+            left join T_CC_MoneyDefine moneyDefine on transfer.FMoneyDefineID = moneyDefine.FID
+            left join t_pc_producttype productType on room.FProductTypeID = productType.FID
+            left join T_BDC_Project project on transfer.FProjectID = project.FID
+            where transfer.FIsDelete = 0
+            and transfer.FIsCancel = 0
+            and transfer.FType in (1,5,8,9)
+            <if test="id != null and id != ''">
+                and transfer.FID = #{id}
+            </if>
+    </select>
+</mapper>

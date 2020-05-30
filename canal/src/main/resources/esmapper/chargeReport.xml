@@ -1,0 +1,59 @@
+<properties>
+    <!--获取URL调用的明细信息-->
+    <property name="getDataByParam">
+        <![CDATA[{
+            "query" : {
+                   "bool": {
+                      "must":[
+                        {"exists": {
+                          "field": "rowkey"
+                        }}
+                        #if($projectID && !$projectID.equals(""))
+                        ,
+                         {"term" : {
+                              "projectID" : #[projectID]
+                          }
+                         }
+                        #end
+                        #if($roomID && !$roomID.equals(""))
+                        ,
+                         {"term" : {
+                              "roomID" : #[roomID]
+                          }
+                         }
+                        #end
+                        #if($customerID && !$customerID.equals(""))
+                        ,
+                         {"term" : {
+                              "customerID" : #[customerID]
+                            }
+                         }
+                        #end
+                        #if($moneyDefineID && !$moneyDefineID.equals(""))
+                        ,
+                         {"term" : {
+                              "moneyDefineID" : #[moneyDefineID]
+                            }
+                         }
+                        #end
+                        #if($year && !$year.equals(""))
+                        ,
+                         {"term" : {
+                              "year" : #[year]
+                            }
+                         }
+                        #end
+                        #if($transferType && !$transferType.equals(""))
+                        ,
+                         {"term" : {
+                              "transferType" : #[transferType]
+                            }
+                         }
+                        #end
+                   ]
+               }
+            }
+        }]]>
+    </property>
+
+</properties>

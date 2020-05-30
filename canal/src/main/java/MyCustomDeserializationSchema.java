@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  * @Author: wangsen
  * @Date: 2020/4/7 16:34
- * @Description:
+ * @Description: 反序列化binlog日志成message格式。
  **/
 public class MyCustomDeserializationSchema extends AbstractDeserializationSchema<Message> {
     @Override
