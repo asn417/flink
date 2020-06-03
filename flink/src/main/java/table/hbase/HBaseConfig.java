@@ -10,47 +10,37 @@ import com.ctrip.framework.apollo.ConfigService;
  **/
 public class HBaseConfig {
     private Config config;
+    private final String hadoop_home_dir;
+    private final String hbase_zookeeper_quorum;
+    private final String hbase_master;
+    private final String clientport;
+
+
     public HBaseConfig(Config config){
         this.config = config;
-    }
-    String HADOOP_HOME_DIR = config.getProperty("hadoop.home.dir","D:/MySoftware/hadoop-2.8.5");
 
-    String HBASE_ZOOKEEPER_QUORUM = config.getProperty("hbase.zookeeper.quorum","172.20.184.17");
+        hadoop_home_dir = config.getProperty("hadoop.home.dir","D:/MySoftware/hadoop-2.8.5");
 
-    String HBASE_MASTER = config.getProperty("hbase.master","172.20.184.17:16000");
+        hbase_zookeeper_quorum = config.getProperty("hbase.zookeeper.quorum","172.20.184.17");
 
-    String CLIENTPORT = config.getProperty("hbase.zookeeper.property.clientPort","2181");
+        hbase_master = config.getProperty("hbase.master","172.20.184.17:16000");
 
-    public String getHADOOP_HOME_DIR() {
-        return HADOOP_HOME_DIR;
+        clientport = config.getProperty("hbase.zookeeper.property.clientPort","2181");
     }
 
-    public void setHADOOP_HOME_DIR(String HADOOP_HOME_DIR) {
-        this.HADOOP_HOME_DIR = HADOOP_HOME_DIR;
+    public String getHadoop_home_dir() {
+        return this.hadoop_home_dir;
     }
 
-    public String getHBASE_ZOOKEEPER_QUORUM() {
-        return HBASE_ZOOKEEPER_QUORUM;
+    public String getHbase_zookeeper_quorum() {
+        return this.hbase_zookeeper_quorum;
     }
 
-    public void setHBASE_ZOOKEEPER_QUORUM(String HBASE_ZOOKEEPER_QUORUM) {
-        this.HBASE_ZOOKEEPER_QUORUM = HBASE_ZOOKEEPER_QUORUM;
+    public String getHbase_master() {
+        return this.hbase_master;
     }
 
-    public String getHBASE_MASTER() {
-        return HBASE_MASTER;
+    public String getClientport() {
+        return this.clientport;
     }
-
-    public void setHBASE_MASTER(String HBASE_MASTER) {
-        this.HBASE_MASTER = HBASE_MASTER;
-    }
-
-    public String getCLIENTPORT() {
-        return CLIENTPORT;
-    }
-
-    public void setCLIENTPORT(String CLIENTPORT) {
-        this.CLIENTPORT = CLIENTPORT;
-    }
-
 }

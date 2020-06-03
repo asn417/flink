@@ -59,17 +59,17 @@ public class HBaseUtil {
         }
         try {
             // 加载本地hadoop二进制包，换成你解压的地址
-            properties.setProperty("hadoop.home.dir", hBaseConfig.getHADOOP_HOME_DIR());
+            properties.setProperty("hadoop.home.dir", hBaseConfig.getHadoop_home_dir());
             // zookeeper集群的URL配置信息
             //configuration.set("hbase.zookeeper.quorum", "flink1,flink2,flink3");
-            configuration.set("hbase.zookeeper.quorum", hBaseConfig.getHBASE_ZOOKEEPER_QUORUM());
+            configuration.set("hbase.zookeeper.quorum", hBaseConfig.getHbase_zookeeper_quorum());
 
             // HBase的Master
             //configuration.set("hbase.master", "flink1:16000");
-            configuration.set("hbase.master", hBaseConfig.getHBASE_MASTER());
+            configuration.set("hbase.master", hBaseConfig.getHbase_master());
             // 客户端连接zookeeper端口
             //configuration.set("hbase.zookeeper.property.clientPort", "2181");
-            configuration.set("hbase.zookeeper.property.clientPort", hBaseConfig.getCLIENTPORT());
+            configuration.set("hbase.zookeeper.property.clientPort", hBaseConfig.getClientport());
             // 获取hbase连接对象*/
             if (connection == null || connection.isClosed()) {
                 connection = ConnectionFactory.createConnection(configuration);
