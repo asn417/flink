@@ -163,7 +163,7 @@ under the License.
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
-				<version>8.0.17</version>
+				<version>8.0.28</version>
 			</dependency>
 			<!-- https://mvnrepository.com/artifact/org.apache.flink/flink-jdbc -->
 			<dependency>
